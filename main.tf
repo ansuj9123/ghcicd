@@ -2,17 +2,17 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.0"
+      version = "~>3.0"
     }
   }
-  backend "local" {}   # local backend for testing
 }
 
 provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "demo" {
-  name     = "rg-github-demo"
-  location = "West Europe"
+# Create a Resource Group
+resource "azurerm_resource_group" "example" {
+  name     = "rg-terraform-sample"
+  location = "East US"
 }

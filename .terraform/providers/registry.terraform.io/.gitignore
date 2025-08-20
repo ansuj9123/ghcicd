@@ -1,0 +1,60 @@
+# -------------------------------
+# Terraform directories & state
+# -------------------------------
+
+# Local .terraform directories (provider plugins & cache)
+**/.terraform/*
+
+# Terraform state files (may contain secrets)
+*.tfstate
+*.tfstate.*
+
+# Terraform lock file (optional: commit for team-managed projects)
+.terraform.lock.hcl
+
+# -------------------------------
+# Variable files (sensitive)
+# -------------------------------
+
+# Files containing secrets/credentials
+*.tfvars
+*.tfvars.json
+
+# -------------------------------
+# Override files (local testing)
+# -------------------------------
+
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# -------------------------------
+# CLI configuration files
+# -------------------------------
+
+.terraformrc
+terraform.rc
+
+# -------------------------------
+# Crash logs
+# -------------------------------
+
+crash.log
+crash.*.log
+
+# -------------------------------
+# Large files / binaries
+# -------------------------------
+
+# Archives and executables
+*.exe
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.iso
+*.dmg
+*.pkg
+*.deb
+*.rpm

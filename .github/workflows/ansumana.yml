@@ -1,0 +1,59 @@
+name: Terraform Deployment
+
+on:
+  push:
+    branches:
+      - main   # or your deployment branch
+  pull_request:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      # Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0   # Use your Terraform version
+
+      # Terraform Init
+      - name: Terraform Init
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        run: terraform init
+
+      # Terraform Validate
+      - name: Terraform Validate
+        run: terraform validate
+
+      # Terraform Plan
+      - name: Terraform Plan
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        run: terraform plan -out=tfplan
+
+      # (Optional) Terraform Apply
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'   # only auto-apply on main branch
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        run: terraform apply -auto-approve tfplan
+
